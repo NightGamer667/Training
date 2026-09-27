@@ -1,0 +1,9 @@
+name: Training
+description: $description
+version: '${version}'
+
+main: net.nightgamer.Training
+api-version: '1.21.1'
+load: STARTUP
+
+authors: [ NightGamer ]
