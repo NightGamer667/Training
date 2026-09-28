@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import net.nightgamer.enums.gm;
 import java.io.IOException;
@@ -259,6 +261,41 @@ public class easyCommands implements CommandExecutor  {
                         p.getWorld().setThundering(true);
                     }
                 break;
+
+
+                //endregion
+
+                //region wb
+                case "wb":
+                    if(p.hasPermission("nightgamer.wb")) {
+                        p.openWorkbench(null, true);
+                    }
+                break;
+
+                //endregion
+
+                //region enderc
+                case "enderc":
+                    if(p.hasPermission("nightgamer.enderc")) {
+                        Inventory in = p.getEnderChest();
+                        in.getStorageContents();
+                    }
+
+                break;
+                //endregion
+
+                //region hat
+                case "head":
+                    if(p.hasPermission("nightgamer.head")) {
+
+
+                        if(p.getEquipment().getItemInMainHand().getType() != Material.AIR) {
+
+                            p.getInventory().setHelmet(p.getEquipment().getItemInMainHand());
+
+                        }
+                    }
+
 
 
                 //endregion
