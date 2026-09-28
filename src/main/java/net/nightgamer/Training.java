@@ -64,6 +64,7 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("enderc").setExecutor(new easyCommands(this));
         getCommand("wb").setExecutor(new easyCommands(this));
 
+
         getCommand("lol").setExecutor(new invCommand());
 
 
