@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.nightgamer.Training;
 import net.nightgamer.superClasses.PlayerClass;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,13 +25,17 @@ public class easyCommands implements CommandExecutor  {
 
 
     public easyCommands(PlayerClass pC){this.pC = pC;}
-
-
     public easyCommands(Training main) {
         this.main = main;
     }
 
+
     List<UUID> playerList = new ArrayList<>();
+
+
+
+
+
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -164,9 +169,12 @@ public class easyCommands implements CommandExecutor  {
                 //endregion
 
 
+                case "gm":
+                    if(p.hasPermission("nightgamer.gm")) {
+                        if(args.length == 1) {
 
-
-
+                        }
+                    }
 
             }
 

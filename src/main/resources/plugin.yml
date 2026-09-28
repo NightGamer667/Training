@@ -7,3 +7,22 @@ api-version: '1.21.1'
 load: STARTUP
 
 authors: [ NightGamer ]
+
+commands:
+
+  heal:
+
+  spawn:
+
+  setspawn:
+
+  fly:
+
+  kill:
+
+  hunger:
+
+  day:
+
+  night:
+

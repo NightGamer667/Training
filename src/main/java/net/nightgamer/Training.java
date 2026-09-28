@@ -39,10 +39,19 @@ public final class Training extends JavaPlugin implements Listener {
                 throw new RuntimeException(e);
             }
         }
+        spawnConfig = YamlConfiguration.loadConfiguration(spawn);
+
 
         System.out.println("[NightGamer Training]: Plugin has been enabled!");
 
-        getCommand("lol").setExecutor(new invCommand());
+        getCommand("spawn").setExecutor(new invCommand());
+        getCommand("setspawn").setExecutor(new invCommand());
+        getCommand("heal").setExecutor(new invCommand());
+        getCommand("hunger").setExecutor(new invCommand());
+        getCommand("kill").setExecutor(new invCommand());
+        getCommand("fly").setExecutor(new invCommand());
+        getCommand("day").setExecutor(new invCommand());
+        getCommand("night").setExecutor(new invCommand());
 
 
 
