@@ -82,6 +82,8 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("enderc").setExecutor(new easyCommands(this));
         getCommand("wb").setExecutor(new easyCommands(this));
         getCommand("explode").setExecutor(new easyCommands(this));
+        getCommand("players").setExecutor(new easyCommands(this));
+
 
 
         getCommand("lol").setExecutor(new invCommand());
@@ -134,7 +136,7 @@ public final class Training extends JavaPlugin implements Listener {
     }
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        e.deathMessage(Component.text("[NightGamer Training]: " + e.getDeathMessage()));
+        e.deathMessage(Component.text("[NightGamer Training]: " + e.deathMessage()));
     }
 
 }
