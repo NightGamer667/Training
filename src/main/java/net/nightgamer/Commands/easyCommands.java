@@ -40,11 +40,11 @@ public class easyCommands implements CommandExecutor  {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player p = (Player) sender;
+
 
 
         if ((sender instanceof Player)) {
-
+            Player p = (Player) sender;
 
 
             switch(command.getName().toLowerCase()) {
@@ -300,67 +300,17 @@ public class easyCommands implements CommandExecutor  {
 
                 //endregion
 
-                //region explode
-                case "explode":
-                    if(p.hasPermission("nightgamer.explode")) {
-                        p.getWorld().createExplosion(p.getLocation(), 100, false, false);
-                    }
-                break;
+                //region regionblanko
+
+
 
                 //endregion
 
-                //region who
-                case "who":
-
-                    if(p.hasPermission("nightgamer.who")) {
-                        String players = "";
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-
-                            players += player.getName() + ", ";
-
-                        }
-                        p.sendMessage(Component.text(players));
-                    }
-
-
-                break;
-                //endregion
-
-                //region location ---
-                case "location":
-
-
-
-                break;
-                //endregion
-
-                //region world ---
-                case "world":
-
-
-
-                break;
-                //endregion
-
-                //region players
-                case "players":
-                    if(p.hasPermission("nightgamer.players")) {
-                        p.sendMessage(Component.text(Bukkit.getOnlinePlayers().size() + " players online"));
-                    }
-
-                break;
-                //endregion
-
-                //region blanko
-
-                //endregion
 
             }
 
-        } else if (!(sender instanceof Player)) {
+        } else {
             System.out.println("only a Player can execute this command");
-        } else{
-            p.sendMessage(Component.text("You don't have permission to execute this command!"));
         }
 
 
