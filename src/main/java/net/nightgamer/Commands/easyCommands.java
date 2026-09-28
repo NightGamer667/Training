@@ -300,10 +300,37 @@ public class easyCommands implements CommandExecutor  {
 
                 //endregion
 
-                //region regionblanko
+                //region explode
+                case "explode":
+                    if(p.hasPermission("nightgamer.explode")) {
+                        p.getWorld().createExplosion(p.getLocation(), 100, false, false);
+                    }
+                break;
+
+                //endregion
+
+                //region who
+                case "who":
 
 
 
+                break;
+                //endregion
+
+                //region location
+                case "location":
+
+
+
+                break;
+                //endregion
+
+                //region world
+                case "world":
+
+
+
+                break;
                 //endregion
 
 
