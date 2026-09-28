@@ -1,6 +1,7 @@
 package net.nightgamer;
 
 import net.kyori.adventure.text.Component;
+import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,15 +46,22 @@ public final class Training extends JavaPlugin implements Listener {
 
         System.out.println("[NightGamer Training]: Plugin has been enabled!");
 
-        getCommand("spawn").setExecutor(new invCommand());
-        getCommand("setspawn").setExecutor(new invCommand());
-        getCommand("heal").setExecutor(new invCommand());
-        getCommand("hunger").setExecutor(new invCommand());
-        getCommand("kill").setExecutor(new invCommand());
-        getCommand("fly").setExecutor(new invCommand());
-        getCommand("day").setExecutor(new invCommand());
-        getCommand("night").setExecutor(new invCommand());
+        getCommand("spawn").setExecutor(new easyCommands(this));
+        getCommand("setspawn").setExecutor(new easyCommands(this));
+        getCommand("heal").setExecutor(new easyCommands(this));
+        getCommand("hunger").setExecutor(new easyCommands(this));
+        getCommand("kill").setExecutor(new easyCommands(this));
+        getCommand("fly").setExecutor(new easyCommands(this));
+        getCommand("day").setExecutor(new easyCommands(this));
+        getCommand("night").setExecutor(new easyCommands(this));
+        getCommand("flyspeed").setExecutor(new easyCommands(this));
+        getCommand("walkspeed").setExecutor(new easyCommands(this));
+        getCommand("clearinv").setExecutor(new easyCommands(this));
+        getCommand("sun").setExecutor(new easyCommands(this));
+        getCommand("rain").setExecutor(new easyCommands(this));
+        getCommand("storm").setExecutor(new easyCommands(this));
 
+        getCommand("lol").setExecutor(new invCommand());
 
 
     }
@@ -66,7 +75,7 @@ public final class Training extends JavaPlugin implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-
+        Bukkit.getServer().sendMessage(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
 
         if(!spawnConfig.getBoolean("spawn") && player.isOp()) {
             player.sendMessage(Component.text("Spawn not set"));
@@ -88,7 +97,12 @@ public final class Training extends JavaPlugin implements Listener {
 
         }
 
-
+    }
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player p = event.getPlayer();
+        Bukkit.getServer().sendMessage(Component.text("[NightGamer Training]: " + p.getName() + " left the game!"));
 
     }
+
 }

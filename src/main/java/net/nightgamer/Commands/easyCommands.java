@@ -3,9 +3,7 @@ package net.nightgamer.Commands;
 import net.kyori.adventure.text.Component;
 import net.nightgamer.Training;
 import net.nightgamer.superClasses.PlayerClass;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +30,7 @@ public class easyCommands implements CommandExecutor  {
 
     List<UUID> playerList = new ArrayList<>();
 
+    float speed;
 
 
 
@@ -46,7 +45,7 @@ public class easyCommands implements CommandExecutor  {
             Player p = (Player) sender;
 
 
-            switch(command.getName()) {
+            switch(command.getName().toLowerCase()) {
 
                 //region heal
                 case "heal" :
@@ -119,8 +118,6 @@ public class easyCommands implements CommandExecutor  {
                             }
                         }
 
-
-
                     } else if (!(sender instanceof Player)) {
                         Bukkit.getServer().sendMessage(Component.text("you need to be a Player to use this command!"));
                     }
@@ -168,13 +165,110 @@ public class easyCommands implements CommandExecutor  {
 
                 //endregion
 
-
+                //region gm
                 case "gm":
                     if(p.hasPermission("nightgamer.gm")) {
-                        if(args.length == 1) {
+                        if(args.length == 2) {
+                            switch(args[1].toLowerCase()) {
+                                case "creative":
+                                    p.setGameMode(gm.Creative.getGameMode());
+                                    break;
+                                case "spectator":
+                                    p.setGameMode(gm.Spectator.getGameMode());
+                                break;
+                                case "adventure":
+                                    p.setGameMode(gm.Adventure.getGameMode());
+                                break;
+
+                                case "survival":
+                                    p.setGameMode(gm.Survival.getGameMode());
+                                break;
+
+
+                            }
+                        }
+                    }
+                break;
+                //endregion
+
+                //region flyspeed
+
+                case "flyspeed":
+
+                    if(p.hasPermission("nightgamer.flyspeed") && args.length == 2) {
+                        if(args[1].matches("[0-9]+")) {
+                            p.setFlySpeed(Float.parseFloat(args[1]));
+                        }
+                    }
+
+                break;
+                //endregion
+
+                //region walkspeed
+
+                case "walkspeed":
+
+                    if(p.hasPermission("nightgamer.walkspeed") && args.length == 2) {
+                        if(args[1].matches("[0-9]+")) {
+                            p.setWalkSpeed(Float.parseFloat(args[1]));
+                        }
+                    }
+
+                    break;
+                //endregion
+
+                //region clearinv
+                case "clearinv":
+                    if(p.hasPermission("nightgamer.clearinv") && args.length == 1) {
+                        Player target = Bukkit.getPlayer(args[0]);
+                        if(target != null) {
+                            target.getInventory().clear();
 
                         }
                     }
+                break;
+
+                //endregion
+
+                //region sun
+                case "sun":
+                    if(p.hasPermission("nightgamer.sun")) {
+                        p.getWorld().setStorm(false);
+                    }
+                break;
+
+
+
+                //endregion
+
+                //region rain
+
+                case "rain":
+                    if(p.hasPermission("nightgamer.rain")) {
+                        p.getWorld().setStorm(true);
+                    }
+                break;
+
+
+                //endregion
+
+                //region storm
+                case "storm":
+                    if(p.hasPermission("nightgamer.storm")) {
+                        p.getWorld().setStorm(true);
+                        p.getWorld().setThundering(true);
+                    }
+                break;
+
+
+                //endregion
+
+                //region regionblanko
+
+
+
+                //endregion
+
 
             }
 
