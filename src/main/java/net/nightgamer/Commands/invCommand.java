@@ -22,7 +22,7 @@ public class invCommand implements CommandExecutor {
         ItemMeta meta = item.getItemMeta();
 
 
-        Inventory inv = Bukkit.createInventory(null, 100, Component.text("[NightGamer Training]").color(NamedTextColor.GOLD));
+        Inventory inv = Bukkit.createInventory(null, 18, Component.text("[NightGamer Training]").color(NamedTextColor.GOLD));
 
         if (args.length == 0 && p.hasPermission("nightgamer.inv")) {
 

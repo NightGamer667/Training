@@ -45,7 +45,7 @@ public final class Training extends JavaPlugin implements Listener {
             getDataFolder().mkdirs();
         }
 
-        if(!spawn.exists()) {
+        if (!spawn.exists()) {
             try {
                 spawn.createNewFile();
             } catch (IOException e) {
@@ -53,7 +53,7 @@ public final class Training extends JavaPlugin implements Listener {
             }
         }
 
-        if(!startItem.exists()) {
+        if (!startItem.exists()) {
             try {
                 startItem.createNewFile();
             } catch (IOException e) {
@@ -65,8 +65,6 @@ public final class Training extends JavaPlugin implements Listener {
         spawnConfig = YamlConfiguration.loadConfiguration(spawn);
         startItemConfig = YamlConfiguration.loadConfiguration(startItem);
 
-
-        System.out.println("[NightGamer Training]: Plugin has been enabled!");
 
         getCommand("spawn").setExecutor(new easyCommands(this));
         getCommand("setspawn").setExecutor(new easyCommands(this));
@@ -91,10 +89,10 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("location").setExecutor(new easyCommands(this));
         getCommand("world").setExecutor(new easyCommands(this));
 
-        getServer().getPluginManager().registerEvents(this, this);
-
-
         getCommand("lol").setExecutor(new invCommand());
+
+
+        getServer().getPluginManager().registerEvents(this, this);
 
 
     }
@@ -139,8 +137,10 @@ public final class Training extends JavaPlugin implements Listener {
             if (world != null && !player.isOp()) {
                 Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                 event.getPlayer().teleport(loc);
+            } else if(player.isOp()) {
+                player.sendMessage(Component.text("you are op so no spawn teleportation!"));
             } else{
-                player.sendMessage(Component.text("Spawn location is null"));
+                player.sendMessage(Component.text("World is Null"));
             }
 
         }
