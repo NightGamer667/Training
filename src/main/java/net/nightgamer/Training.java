@@ -38,7 +38,12 @@ public final class Training extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        spawn = new File(getDataFolder(), "spawn");
+        spawn = new File(getDataFolder(), "spawn.yml");
+        startItem = new File(getDataFolder(), "startItem.yml");
+
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
 
         if(!spawn.exists()) {
             try {
@@ -83,6 +88,7 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("explode").setExecutor(new easyCommands(this));
         getCommand("players").setExecutor(new easyCommands(this));
 
+        getServer().getPluginManager().registerEvents(this, this);
 
 
         getCommand("lol").setExecutor(new invCommand());
@@ -96,20 +102,29 @@ public final class Training extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onJoin(PlayerJoinEvent event)  {
         Player player = event.getPlayer();
         if(!startItemConfig.contains("UUID." + player.getUniqueId().toString())) {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             player.getInventory().addItem(head);
             startItemConfig.set("UUID." + player.getUniqueId().toString(), player.getUniqueId().toString());
+
+            try {
+               startItemConfig.save(startItem);
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+
+
         }
 
         Bukkit.getServer().broadcast(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
 
+
+
         if(!spawnConfig.getBoolean("spawn") && player.isOp()) {
             player.sendMessage(Component.text("Spawn not set"));
-        } else{
-
+        } else {
             double x = spawnConfig.getDouble("SpawnX");
             double y = spawnConfig.getDouble("SpawnY");
             double z = spawnConfig.getDouble("SpawnZ");
@@ -117,9 +132,10 @@ public final class Training extends JavaPlugin implements Listener {
             float yaw = (float) spawnConfig.getDouble("Spawnyaw");
             float pitch = (float) spawnConfig.getDouble("Spawnpitch");
 
-            Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
-            if (!world.isBlank()) {
-                player.teleport(loc);
+
+            if (world != null) {
+                Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
+                event.getPlayer().teleport(loc);
             } else{
                 player.sendMessage(Component.text("Spawn location is null"));
             }
@@ -127,15 +143,31 @@ public final class Training extends JavaPlugin implements Listener {
         }
 
     }
+
+
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
         Bukkit.getServer().sendMessage(Component.text("[NightGamer Training]: " + p.getName() + " left the game!"));
 
     }
+
+
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         e.deathMessage(Component.text("[NightGamer Training]: " + e.deathMessage()));
+    }
+
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
+        String message = e.getMessage();
+
+        if (p.hasPermission("nightgamer.admin")) {
+            e.setMessage("&4&l[Admin] " + message);
+        }
+
     }
 
 }

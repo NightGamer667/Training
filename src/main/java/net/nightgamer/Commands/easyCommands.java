@@ -61,7 +61,7 @@ public class easyCommands implements CommandExecutor  {
 
                 //region spawn
                 case "spawn":
-                    if(p.hasPermission("nightgamer.spawn") && main.getConfig().getBoolean("spawn")) {
+                    if(p.hasPermission("nightgamer.spawn") && main.spawnConfig.getBoolean("spawn")) {
 
 
 
@@ -69,8 +69,8 @@ public class easyCommands implements CommandExecutor  {
                         double y = main.spawnConfig.getDouble("SpawnY");
                         double z = main.spawnConfig.getDouble("SpawnZ");
                         String world = main.spawnConfig.getString("SpawnWorld");
-                        Float yaw = (Float) main.spawnConfig.get("Spawnyaw");
-                        Float pitch = (Float) main.spawnConfig.get("Spawnpitch");
+                        float yaw = (float) main.spawnConfig.getDouble("Spawnyaw");
+                        float pitch = (float) main.spawnConfig.getDouble("Spawnpitch");
 
 
                         Location loc = new Location(Bukkit.getWorld(world), x, y,z, yaw, pitch);
@@ -197,9 +197,11 @@ public class easyCommands implements CommandExecutor  {
 
                 case "flyspeed":
 
-                    if(p.hasPermission("nightgamer.flyspeed") && args.length == 2) {
-                        if(args[1].matches("[0-9]+")) {
-                            p.setFlySpeed(Float.parseFloat(args[1]));
+                    if(p.hasPermission("nightgamer.flyspeed") && args.length == 1) {
+                        if(args[0].matches("[0-9]+")) {
+                            p.setFlySpeed(Float.parseFloat(args[0]));
+                        }else if(Double.parseDouble(args[0]) <= 0.1 || Double.parseDouble(args[0]) >= 1.0) {
+                            p.sendMessage(Component.text("flyspeed out of range only 0.1 to 1"));
                         }
                     }
 
@@ -213,6 +215,8 @@ public class easyCommands implements CommandExecutor  {
                     if(p.hasPermission("nightgamer.walkspeed") && args.length == 2) {
                         if(args[1].matches("[0-9]+")) {
                             p.setWalkSpeed(Float.parseFloat(args[1]));
+                        }else if(Double.parseDouble(args[0]) <= 0.1 || Double.parseDouble(args[0]) >= 1.0) {
+                            p.sendMessage(Component.text("walkspeed out of range only 0.1 to 1"));
                         }
                     }
 
@@ -326,7 +330,7 @@ public class easyCommands implements CommandExecutor  {
                 break;
                 //endregion
 
-                //region location ---
+                //region location
                 case "location":
 
                     if(p.hasPermission("nightgamer.location")) {
@@ -340,10 +344,12 @@ public class easyCommands implements CommandExecutor  {
                 break;
                 //endregion
 
-                //region world ---
+                //region world
                 case "world":
 
-
+                    if(p.hasPermission("nightgamer.world")) {
+                        p.sendMessage(Component.text(p.getWorld().getName()));
+                    }
 
                 break;
                 //endregion

@@ -10,11 +10,15 @@ authors: [ NightGamer ]
 
 commands:
 
+  lol:
+
   heal:
 
   spawn:
 
   setspawn:
+
+  clearinv:
 
   fly:
 
