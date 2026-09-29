@@ -284,7 +284,7 @@ public class easyCommands implements CommandExecutor  {
                 break;
                 //endregion
 
-                //region hat
+                //region head
                 case "head":
                     if(p.hasPermission("nightgamer.head")) {
 
@@ -300,9 +300,64 @@ public class easyCommands implements CommandExecutor  {
 
                 //endregion
 
-                //region regionblanko
+                //region explode
+                case "explode":
+                    if(p.hasPermission("nightgamer.explode")) {
+                        p.getWorld().createExplosion(p.getLocation(), 100, false, false);
+                    }
+                break;
+
+                //endregion
+
+                //region who
+                case "who":
+
+                    if(p.hasPermission("nightgamer.who")) {
+                        String players = "";
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+
+                            players += player.getName() + ", ";
+
+                        }
+                        p.sendMessage(Component.text(players));
+                    }
 
 
+                break;
+                //endregion
+
+                //region location ---
+                case "location":
+
+                    if(p.hasPermission("nightgamer.location")) {
+                        p.sendMessage(Component.text("You are here\nX "
+                                + p.getLocation().getX() + "\nY "
+                                +  p.getLocation().getY() + "\nZ "
+                                + p.getLocation().getZ()));
+                    }
+
+
+                break;
+                //endregion
+
+                //region world ---
+                case "world":
+
+
+
+                break;
+                //endregion
+
+                //region players
+                case "players":
+                    if(p.hasPermission("nightgamer.players")) {
+                        p.sendMessage(Component.text(Bukkit.getOnlinePlayers().size() + " players online"));
+                    }
+
+                break;
+                //endregion
+
+                //region blanko
 
                 //endregion
 

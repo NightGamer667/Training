@@ -5,16 +5,19 @@ import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +28,9 @@ import java.io.IOException;
 public final class Training extends JavaPlugin implements Listener {
 
     public File spawn;
+    public File startItem;
+
+    public FileConfiguration startItemConfig;
     public FileConfiguration spawnConfig;
 
 
@@ -41,7 +47,18 @@ public final class Training extends JavaPlugin implements Listener {
                 throw new RuntimeException(e);
             }
         }
+
+        if(!startItem.exists()) {
+            try {
+                startItem.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
         spawnConfig = YamlConfiguration.loadConfiguration(spawn);
+        startItemConfig = YamlConfiguration.loadConfiguration(startItem);
 
 
         System.out.println("[NightGamer Training]: Plugin has been enabled!");
@@ -63,6 +80,9 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("head").setExecutor(new easyCommands(this));
         getCommand("enderc").setExecutor(new easyCommands(this));
         getCommand("wb").setExecutor(new easyCommands(this));
+        getCommand("explode").setExecutor(new easyCommands(this));
+        getCommand("players").setExecutor(new easyCommands(this));
+
 
 
         getCommand("lol").setExecutor(new invCommand());
@@ -77,9 +97,14 @@ public final class Training extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-
         Player player = event.getPlayer();
-        Bukkit.getServer().sendMessage(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
+        if(!startItemConfig.contains("UUID." + player.getUniqueId().toString())) {
+            ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+            player.getInventory().addItem(head);
+            startItemConfig.set("UUID." + player.getUniqueId().toString(), player.getUniqueId().toString());
+        }
+
+        Bukkit.getServer().broadcast(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
 
         if(!spawnConfig.getBoolean("spawn") && player.isOp()) {
             player.sendMessage(Component.text("Spawn not set"));
@@ -107,6 +132,10 @@ public final class Training extends JavaPlugin implements Listener {
         Player p = event.getPlayer();
         Bukkit.getServer().sendMessage(Component.text("[NightGamer Training]: " + p.getName() + " left the game!"));
 
+    }
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        e.deathMessage(Component.text("[NightGamer Training]: " + e.deathMessage()));
     }
 
 }
