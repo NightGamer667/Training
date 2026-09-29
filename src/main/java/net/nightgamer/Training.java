@@ -1,6 +1,7 @@
 package net.nightgamer;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
 import org.bukkit.Bukkit;
@@ -10,13 +11,12 @@ import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerEggThrowEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -167,6 +167,24 @@ public final class Training extends JavaPlugin implements Listener {
         if (p.hasPermission("nightgamer.admin")) {
             e.setMessage("&4&l[Admin] " + message);
         }
+
+    }
+    @EventHandler
+    public void onPlayerclick(PlayerInteractEvent e){
+
+            if(e.getPlayer().getInventory().getItemInMainHand().getType() == Material.PLAYER_HEAD) {
+
+                if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+
+                    Snowball ball = e.getPlayer().launchProjectile(Snowball.class, e.getPlayer().getLocation().getDirection());
+                    ball.setGlowing(true);
+                    ball.setCustomNameVisible(true);
+                    ball.setGravity(false);
+                    ball.customName(Component.text("Snowball"));
+
+                }
+
+            }
 
     }
 

@@ -160,7 +160,7 @@ public class easyCommands implements CommandExecutor  {
                 case "night":
                     if(p.hasPermission("nightgamer.night")) {
                         p.sendMessage(Component.text("it is Night now"));
-                        p.getWorld().setTime(12000);
+                        p.getWorld().setTime(18000);
                     }
                 break;
 
@@ -206,7 +206,8 @@ public class easyCommands implements CommandExecutor  {
                                 return true;
                             }
 
-                            p.setWalkSpeed((float) doubleSpeed);
+                            p.setFlySpeed((float) doubleSpeed);
+                            p.sendMessage(Component.text("Speed: " + p.getFlySpeed()));
 
                         } catch (NumberFormatException e) {
                             p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
@@ -227,6 +228,7 @@ public class easyCommands implements CommandExecutor  {
                             doubleSpeed = Double.parseDouble(args[0]);
                             if(doubleSpeed < -1.0 || doubleSpeed > 1.0) {
                                 p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
+                                p.sendMessage(Component.text("Speed: " + p.getWalkSpeed()));
                                 return true;
                             }
 
@@ -338,13 +340,13 @@ public class easyCommands implements CommandExecutor  {
                 case "who":
 
                     if(p.hasPermission("nightgamer.who")) {
-                        String players = "";
+                        StringBuilder players = new StringBuilder();
                         for (Player player : Bukkit.getOnlinePlayers()) {
 
-                            players += player.getName() + ", ";
+                            players.append(player.getName()).append(", ");
 
                         }
-                        p.sendMessage(Component.text(players));
+                        p.sendMessage(Component.text(players.toString()));
                     }
 
 
