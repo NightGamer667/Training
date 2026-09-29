@@ -2,6 +2,7 @@ package net.nightgamer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
 import org.bukkit.Bukkit;
@@ -138,7 +139,7 @@ public final class Training extends JavaPlugin implements Listener {
                 Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                 event.getPlayer().teleport(loc);
             } else if(player.isOp()) {
-                player.sendMessage(Component.text("you are op so no spawn teleportation!"));
+                player.sendMessage(Component.text("you are op so no spawn teleportation!").color(NamedTextColor.GOLD));
             } else{
                 player.sendMessage(Component.text("World is Null"));
             }
