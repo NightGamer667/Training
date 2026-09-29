@@ -169,7 +169,8 @@ public final class Training extends JavaPlugin implements Listener {
         String message = e.getMessage();
 
         if (p.hasPermission("nightgamer.admin")) {
-            e.setMessage("&4&l[Admin] " + message);
+            e.setMessage(Component.text("[Admin] ").color(NamedTextColor.RED) + message);
+
         }
 
     }

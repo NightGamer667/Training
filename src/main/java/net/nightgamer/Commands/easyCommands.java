@@ -2,7 +2,6 @@ package net.nightgamer.Commands;
 
 import net.kyori.adventure.text.Component;
 import net.nightgamer.Training;
-import net.nightgamer.superClasses.PlayerClass;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,16 +13,17 @@ import net.nightgamer.enums.gm;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class easyCommands implements CommandExecutor  {
 
     Training main;
-    gm gam;
-    PlayerClass pC;
 
 
-    public easyCommands(PlayerClass pC){this.pC = pC;}
+
+
+
     public easyCommands(Training main) {
         this.main = main;
     }
@@ -31,7 +31,7 @@ public class easyCommands implements CommandExecutor  {
 
     List<UUID> playerList = new ArrayList<>();
 
-    float speed1;
+
 
 
 
@@ -42,8 +42,7 @@ public class easyCommands implements CommandExecutor  {
 
 
 
-        if ((sender instanceof Player)) {
-            Player p = (Player) sender;
+        if ((sender instanceof Player p)) {
             double doubleSpeed;
 
             switch(command.getName().toLowerCase()) {
@@ -72,7 +71,8 @@ public class easyCommands implements CommandExecutor  {
                         float pitch = (float) main.spawnConfig.getDouble("Spawnpitch");
 
 
-                        Location loc = new Location(Bukkit.getWorld(world), x, y,z, yaw, pitch);
+
+                        Location loc = new Location(Bukkit.getWorld(Objects.requireNonNull(world)), x, y,z, yaw, pitch);
                         p.teleport(loc);
                     } else {
                         p.sendMessage(Component.text("no spawn Set"));
@@ -305,7 +305,7 @@ public class easyCommands implements CommandExecutor  {
                 case "enderc":
                     if(p.hasPermission("nightgamer.enderc")) {
                         Inventory in = p.getEnderChest();
-                        in.getStorageContents();
+                        p.openInventory(in);
                     }
 
                 break;
