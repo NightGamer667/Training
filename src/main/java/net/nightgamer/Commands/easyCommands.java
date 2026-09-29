@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import net.nightgamer.enums.gm;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class easyCommands implements CommandExecutor  {
 
     List<UUID> playerList = new ArrayList<>();
 
-    float speed;
+    float speed1;
 
 
 
@@ -45,7 +44,7 @@ public class easyCommands implements CommandExecutor  {
 
         if ((sender instanceof Player)) {
             Player p = (Player) sender;
-
+            double doubleSpeed;
 
             switch(command.getName().toLowerCase()) {
 
@@ -197,11 +196,20 @@ public class easyCommands implements CommandExecutor  {
 
                 case "flyspeed":
 
+
                     if(p.hasPermission("nightgamer.flyspeed") && args.length == 1) {
-                        if(args[0].matches("[0-9]+")) {
-                            p.setFlySpeed(Float.parseFloat(args[0]));
-                        }else if(Double.parseDouble(args[0]) <= 0.1 || Double.parseDouble(args[0]) >= 1.0) {
-                            p.sendMessage(Component.text("flyspeed out of range only 0.1 to 1"));
+
+                        try {
+                            doubleSpeed = Double.parseDouble(args[0]);
+                            if(doubleSpeed < -1.0 || doubleSpeed > 1.0) {
+                                p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
+                                return true;
+                            }
+
+                            p.setWalkSpeed((float) doubleSpeed);
+
+                        } catch (NumberFormatException e) {
+                            p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
                         }
                     }
 
@@ -212,12 +220,25 @@ public class easyCommands implements CommandExecutor  {
 
                 case "walkspeed":
 
-                    if(p.hasPermission("nightgamer.walkspeed") && args.length == 2) {
-                        if(args[1].matches("[0-9]+")) {
-                            p.setWalkSpeed(Float.parseFloat(args[1]));
-                        }else if(Double.parseDouble(args[0]) <= 0.1 || Double.parseDouble(args[0]) >= 1.0) {
-                            p.sendMessage(Component.text("walkspeed out of range only 0.1 to 1"));
+
+                    if(p.hasPermission("nightgamer.walkspeed") && args.length == 1) {
+
+                        try {
+                            doubleSpeed = Double.parseDouble(args[0]);
+                            if(doubleSpeed < -1.0 || doubleSpeed > 1.0) {
+                                p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
+                                return true;
+                            }
+
+                            p.setWalkSpeed((float) doubleSpeed);
+
+                        } catch (NumberFormatException e) {
+                            p.sendMessage(Component.text("Please enter a valid number between -1.0 and 1.0"));
                         }
+
+
+
+
                     }
 
                     break;

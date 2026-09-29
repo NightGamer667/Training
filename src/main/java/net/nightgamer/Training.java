@@ -133,7 +133,7 @@ public final class Training extends JavaPlugin implements Listener {
             float pitch = (float) spawnConfig.getDouble("Spawnpitch");
 
 
-            if (world != null) {
+            if (world != null && !player.isOp()) {
                 Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                 event.getPlayer().teleport(loc);
             } else{
