@@ -87,6 +87,9 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("wb").setExecutor(new easyCommands(this));
         getCommand("explode").setExecutor(new easyCommands(this));
         getCommand("players").setExecutor(new easyCommands(this));
+        getCommand("who").setExecutor(new easyCommands(this));
+        getCommand("location").setExecutor(new easyCommands(this));
+        getCommand("world").setExecutor(new easyCommands(this));
 
         getServer().getPluginManager().registerEvents(this, this);
 
