@@ -7,6 +7,8 @@ import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
+import net.nightgamer.Commands.message;
+import net.nightgamer.Commands.replymessage;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class Training extends JavaPlugin implements Listener {
 
@@ -38,7 +42,12 @@ public final class Training extends JavaPlugin implements Listener {
     public FileConfiguration startItemConfig;
     public FileConfiguration spawnConfig;
 
+    private HashMap<UUID, UUID> lastmessage = new HashMap<>();
 
+    public HashMap<UUID, UUID> getLastmessage() {
+
+        return lastmessage;
+    }
 
 
     @Override
@@ -92,6 +101,9 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("who").setExecutor(new easyCommands(this));
         getCommand("location").setExecutor(new easyCommands(this));
         getCommand("world").setExecutor(new easyCommands(this));
+        getCommand("msg").setExecutor(new message(this));
+        getCommand("reply").setExecutor(new replymessage(this));
+
 
         getCommand("lol").setExecutor(new invCommand());
 
@@ -114,6 +126,10 @@ public final class Training extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event)  {
         Player player = event.getPlayer();
+
+        Bukkit.getServer().broadcast(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
+
+
         if(!startItemConfig.contains("UUID." + player.getUniqueId().toString())) {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             player.getInventory().addItem(head);
@@ -128,7 +144,7 @@ public final class Training extends JavaPlugin implements Listener {
 
         }
 
-        Bukkit.getServer().broadcast(Component.text("[NightGamer Training]: " + player.getName() + " joined the game!"));
+
 
 
 
@@ -232,11 +248,7 @@ public final class Training extends JavaPlugin implements Listener {
 
     }
 
-    @EventHandler
-    public void onBlockPlace(PlayerStatisticIncrementEvent e) {
-        Player p = e.getPlayer();
-        p.getStatistic(Statistic.BELL_RING);
-    }
+
 
 
 }

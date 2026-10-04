@@ -490,13 +490,31 @@ public class easyCommands implements CommandExecutor  {
                         }
                     }
 
+                break;
 
+            //endregion
 
-                //endregion
+            //region me
+            case "me":
+                StringBuilder message = new StringBuilder();
 
-                //region blanko
+                if(p.hasPermission("nightgamer.me")) {
 
-                //endregion
+                    if(args.length >= 1) {
+                        for(int i = 0; i < args.length; i++) {
+                            message.append(args[i]).append(" ");
+                        }
+                        Bukkit.broadcast(Component.text(p.getName()+ " " + message).color(NamedTextColor.DARK_GREEN));
+                    } else {
+                        p.sendMessage(Component.text("Usage: /me <text>"));
+                    }
+                }
+            break;
+            //endregion
+
+            //region blanko
+
+            //endregion
 
 
             }
