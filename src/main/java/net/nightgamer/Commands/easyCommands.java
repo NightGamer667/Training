@@ -1,6 +1,9 @@
 package net.nightgamer.Commands;
 
+import io.papermc.paper.ban.BanListType;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import net.nightgamer.Training;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -11,10 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import net.nightgamer.enums.gm;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
 public class easyCommands implements CommandExecutor  {
 
@@ -29,6 +31,7 @@ public class easyCommands implements CommandExecutor  {
     }
 
 
+
     List<UUID> playerList = new ArrayList<>();
 
 
@@ -40,7 +43,7 @@ public class easyCommands implements CommandExecutor  {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-
+        boolean opSpawn = main.spawnConfig.getBoolean("opspawn");
 
         if ((sender instanceof Player p)) {
             double doubleSpeed;
@@ -384,6 +387,111 @@ public class easyCommands implements CommandExecutor  {
                     }
 
                 break;
+                //endregion
+
+                //region opspawn
+                case "opspawn":
+                    if(p.hasPermission("nightgamer.opspawn")) {
+                        opSpawn = !opSpawn;
+                    }
+                break;
+
+                //endregion
+
+                //region punish
+
+                case "punish":
+                    if(p.hasPermission("nightgamer.punish")) {
+                        if (args.length == 4) {
+                            if (Bukkit.getPlayer(args[0]) != null) {
+                                Player target = Bukkit.getPlayer(args[0]);
+                                Component source = Component.text("NightGames").color(NamedTextColor.YELLOW);
+
+
+                                switch (args[1]) {
+
+                                    case "ban":
+
+                                        if (args.length > 3) {
+                                            p.sendMessage(Component.text("you dont need to set the time in ban"));
+                                        }
+
+                                        try {
+                                            target.ban(args[2],
+                                                    (Date) null,
+                                                    String.valueOf(source),
+                                                    true);
+
+                                        } catch (NullPointerException e){
+                                            e.fillInStackTrace();
+                                            p.sendMessage(Component.text("Player not found"));
+                                        }
+
+
+
+                                    break;
+
+                                    case "kick":
+
+                                        if (args.length > 3) {
+                                            p.sendMessage(Component.text("you dont need to set the time in kick"));
+                                        }
+                                        try {
+                                            target.kick(Component.text(
+                                                    args[2] +
+                                                            p.getName()).color(NamedTextColor.DARK_RED));
+
+                                        } catch (NullPointerException e){
+                                            e.printStackTrace();
+                                            p.sendMessage(Component.text("Player not found"));
+                                        }
+
+                                    break;
+
+                                    case "banh":
+
+                                        if (args.length < 4) {
+                                            p.sendMessage(Component.text("Usage: /punish <player> banh <reason> <hours>"));
+                                            break;
+                                        }
+
+                                        try {
+
+                                            Calendar cal = Calendar.getInstance();
+                                            int hour = Integer.parseInt(args[3]);
+                                            cal.add(Calendar.HOUR, hour);
+
+                                            target.ban(args[2],
+                                                    cal.getTime(),
+                                                    String.valueOf(source),
+                                                    true);
+
+                                        } catch (NumberFormatException e) {
+
+                                            e.printStackTrace();
+                                            p.sendMessage(Component.text("Please enter a valid number"));
+
+                                        }
+
+                                    break;
+
+                                    default:
+
+                                        p.sendMessage(Component.text("usage /punish, target, ban/kick/banh, message, time with banh"));
+
+                                    break;
+
+
+                                }
+
+
+                            }
+
+                        }
+                    }
+
+
+
                 //endregion
 
                 //region blanko

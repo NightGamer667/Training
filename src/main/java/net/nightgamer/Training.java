@@ -3,24 +3,27 @@ package net.nightgamer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.md_5.bungee.api.ChatMessageType;
 import net.nightgamer.Commands.easyCommands;
 import net.nightgamer.Commands.invCommand;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Server;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.crypto.Data;
 import java.io.File;
@@ -28,6 +31,7 @@ import java.io.IOException;
 
 public final class Training extends JavaPlugin implements Listener {
 
+    private static final Logger log = LoggerFactory.getLogger(Training.class);
     public File spawn;
     public File startItem;
 
@@ -66,7 +70,6 @@ public final class Training extends JavaPlugin implements Listener {
         spawnConfig = YamlConfiguration.loadConfiguration(spawn);
         startItemConfig = YamlConfiguration.loadConfiguration(startItem);
 
-
         getCommand("spawn").setExecutor(new easyCommands(this));
         getCommand("setspawn").setExecutor(new easyCommands(this));
         getCommand("heal").setExecutor(new easyCommands(this));
@@ -96,11 +99,16 @@ public final class Training extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
 
+
     }
 
     @Override
     public void onDisable() {
-        System.out.println("[NightGamer Training]: Plugin has been disabled!");
+
+        System.out.println(
+                "[NightGamer Training]: Plugin has been disabled!\n" +
+                "Unload and Saved Commands/Config!");
+
     }
 
     @EventHandler
@@ -136,12 +144,24 @@ public final class Training extends JavaPlugin implements Listener {
 
 
             if (world != null && !player.isOp()) {
+
                 Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                 event.getPlayer().teleport(loc);
-            } else if(player.isOp()) {
-                player.sendMessage(Component.text("you are op so no spawn teleportation!").color(NamedTextColor.GOLD));
-            } else{
+
+            } else if (player.isOp() && !spawnConfig.getBoolean("opspawn")) {
+
+                player.sendMessage(Component.text("you are op so no spawn teleportation!\n" +
+                        "use /opspawn to aktivate it again").color(NamedTextColor.GOLD));
+
+            } else if (player.isOp() && spawnConfig.getBoolean("opspawn")) {
+
+                Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
+                event.getPlayer().teleport(loc);
+
+            }else if (player.isOp() && world == null) {
+
                 player.sendMessage(Component.text("World is Null"));
+
             }
 
         }
@@ -165,11 +185,30 @@ public final class Training extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
+
         Player p = e.getPlayer();
         String message = e.getMessage();
+        String name = e.getPlayer().getName();
+        Component error = Component.text("[NightGamer Training]: " + name + " dont use too much uppercase ");
+        int characteruppercase = 0;
+
+
+        for (char c : message.toCharArray()) {
+            if(Character.isUpperCase(c)) {
+                characteruppercase++;
+            }
+
+        }
+        if(characteruppercase > 10 ) {
+            p.sendMessage(error);
+            e.setCancelled(true);
+        }
+
 
         if (p.hasPermission("nightgamer.admin")) {
-            e.setMessage(Component.text("[Admin] ").color(NamedTextColor.RED) + message);
+            e.setMessage(Component.text(
+                    "[Admin] ").color(NamedTextColor.DARK_RED)
+                    + message);
 
         }
 
@@ -181,16 +220,23 @@ public final class Training extends JavaPlugin implements Listener {
 
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
 
-                    Snowball ball = e.getPlayer().launchProjectile(Snowball.class, e.getPlayer().getLocation().getDirection());
+                    Fireball ball = e.getPlayer().launchProjectile(Fireball.class, e.getPlayer().getLocation().getDirection());
                     ball.setGlowing(true);
                     ball.setCustomNameVisible(true);
                     ball.setGravity(false);
-                    ball.customName(Component.text("Snowball"));
+                    ball.customName(Component.text("Fireball"));
 
                 }
 
             }
 
     }
+
+    @EventHandler
+    public void onBlockPlace(PlayerStatisticIncrementEvent e) {
+        Player p = e.getPlayer();
+        p.getStatistic(Statistic.BELL_RING);
+    }
+
 
 }
