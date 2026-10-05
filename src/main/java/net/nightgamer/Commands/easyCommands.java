@@ -494,7 +494,7 @@ public class easyCommands implements CommandExecutor  {
 
             //endregion
 
-            //region me
+                //region me
             case "me":
                 StringBuilder message = new StringBuilder();
 
@@ -504,7 +504,7 @@ public class easyCommands implements CommandExecutor  {
                         for(int i = 0; i < args.length; i++) {
                             message.append(args[i]).append(" ");
                         }
-                        Bukkit.broadcast(Component.text(p.getName()+ " " + message).color(NamedTextColor.DARK_GREEN));
+                        Bukkit.broadcast(Component.text(p.getName() + " " + message).color(NamedTextColor.DARK_GREEN));
                     } else {
                         p.sendMessage(Component.text("Usage: /me <text>"));
                     }
