@@ -20,8 +20,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -101,6 +103,8 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("who").setExecutor(new easyCommands(this));
         getCommand("location").setExecutor(new easyCommands(this));
         getCommand("world").setExecutor(new easyCommands(this));
+        getCommand("opspawn").setExecutor(new easyCommands(this));
+
         getCommand("msg").setExecutor(new message(this));
         getCommand("reply").setExecutor(new replymessage(this));
 
@@ -132,6 +136,11 @@ public final class Training extends JavaPlugin implements Listener {
 
         if(!startItemConfig.contains("UUID." + player.getUniqueId().toString())) {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+            ItemMeta meta = head.getItemMeta();
+            meta.displayName(Component.text("[NightGamer Training]: " + player.getName()));
+            head.setItemMeta(meta);
+
+
             player.getInventory().addItem(head);
             startItemConfig.set("UUID." + player.getUniqueId().toString(), player.getUniqueId().toString());
 
@@ -169,7 +178,7 @@ public final class Training extends JavaPlugin implements Listener {
                 player.sendMessage(Component.text("you are op so no spawn teleportation!\n" +
                         "use /opspawn to aktivate it again").color(NamedTextColor.GOLD));
 
-            } else if (player.isOp() && spawnConfig.getBoolean("opspawn")) {
+            } else if (world != null && player.isOp() && spawnConfig.getBoolean("opspawn")) {
 
                 Location loc  = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                 event.getPlayer().teleport(loc);
@@ -246,6 +255,13 @@ public final class Training extends JavaPlugin implements Listener {
 
             }
 
+    }
+    @EventHandler
+    public void onInventoryClick(PlayerLevelChangeEvent e) {
+        if(e.getNewLevel() == 10){
+            Player p = e.getPlayer();
+            p.sendMessage(Component.text("Placeholder"));
+        }
     }
 
 

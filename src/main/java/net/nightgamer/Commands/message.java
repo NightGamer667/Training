@@ -38,10 +38,12 @@ public class message implements CommandExecutor {
                         message.append(args[i]).append(" ");
                     }
 
-                    p.sendMessage("You -> " + target.getName() + " " + Component.text(message.toString()).color(NamedTextColor.BLUE));
+                    p.sendMessage(Component.text("You -> " + target.getName() + " ").append(Component.text(message.toString()).color(NamedTextColor.BLUE)));
 
-                    target.sendMessage("From -> " + p.getName() + " " + Component.text(message.toString()).color(NamedTextColor.GREEN));
-
+                    target.sendMessage(
+                            Component.text("From -> " + p.getName() + " ")
+                                    .append(Component.text(message.toString()).color(NamedTextColor.GREEN))
+                    );
                     main.getLastmessage().put(p.getUniqueId(), target.getUniqueId());
                 } else {
                     p.sendMessage(Component.text("That player is not Online").color(NamedTextColor.RED));

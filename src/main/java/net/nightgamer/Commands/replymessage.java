@@ -44,9 +44,9 @@ public class replymessage implements CommandExecutor {
                                 message.append(args[i]).append(" ");
                             }
 
-                            p.sendMessage("You -> " + target.getName() + Component.text(message.toString()).color(NamedTextColor.BLUE));
+                            p.sendMessage(Component.text("You -> " + target.getName()).append(Component.text(message.toString()).color(NamedTextColor.BLUE)));
 
-                            target.sendMessage("From ->" + p.getName() + Component.text(message.toString()).color(NamedTextColor.GREEN));
+                            target.sendMessage(Component.text("From -> " + p.getName()).append(Component.text(message.toString()).color(NamedTextColor.GREEN)));
 
                         } else {
                             p.sendMessage(Component.text("Player is not online!").color(NamedTextColor.RED));

@@ -20,7 +20,7 @@ public class invCommand implements CommandExecutor {
 
         ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta meta = item.getItemMeta();
-
+        item.setItemMeta(meta);
 
         Inventory inv = Bukkit.createInventory(null, 18, Component.text("[NightGamer Training]").color(NamedTextColor.GOLD));
 
@@ -33,6 +33,10 @@ public class invCommand implements CommandExecutor {
 
             if (pC.getGamemode().equals(GameMode.CREATIVE) && p.isOp()) {
                 p.openInventory(inv);
+                inv.setItem(0, item);
+                if(item.getType() == Material.DIAMOND_SWORD){
+
+                }
             }
 
 

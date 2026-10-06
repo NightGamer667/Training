@@ -392,7 +392,28 @@ public class easyCommands implements CommandExecutor  {
                 //region opspawn
                 case "opspawn":
                     if(p.hasPermission("nightgamer.opspawn")) {
-                        opSpawn = !opSpawn;
+                        if(!main.spawnConfig.getBoolean("opspawn") ) {
+
+                            main.spawnConfig.set("opspawn", true);
+                            try {
+                                main.spawnConfig.save(main.spawn);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            p.sendMessage(Component.text("Opspawn enabled"));
+
+                        } else  if(main.spawnConfig.getBoolean("opspawn")) {
+
+                            main.spawnConfig.set("opspawn", false);
+                            try {
+                                main.spawnConfig.save(main.spawn);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            p.sendMessage(Component.text("Opspawn disabled"));
+                        }
+
                     }
                 break;
 
