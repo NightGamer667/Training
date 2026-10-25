@@ -1,5 +1,6 @@
 package net.nightgamer;
 
+import com.sun.tools.javac.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -40,7 +41,9 @@ public final class Training extends JavaPlugin implements Listener {
     private static final Logger log = LoggerFactory.getLogger(Training.class);
     public File spawn;
     public File startItem;
+    public File testFile;
 
+    public FileConfiguration testConfig;
     public FileConfiguration startItemConfig;
     public FileConfiguration spawnConfig;
 
@@ -60,6 +63,15 @@ public final class Training extends JavaPlugin implements Listener {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
+
+        if(!testFile.exists()) {
+            try{
+                testFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+                }
+        }
+
 
         if (!spawn.exists()) {
             try {
@@ -105,7 +117,10 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("world").setExecutor(new easyCommands(this));
         getCommand("opspawn").setExecutor(new easyCommands(this));
 
+
         getCommand("msg").setExecutor(new message(this));
+
+
         getCommand("reply").setExecutor(new replymessage(this));
 
 
@@ -211,11 +226,15 @@ public final class Training extends JavaPlugin implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
 
+
+
         Player p = e.getPlayer();
         String message = e.getMessage();
         String name = e.getPlayer().getName();
         Component error = Component.text("[NightGamer Training]: " + name + " dont use too much uppercase ");
         int characteruppercase = 0;
+
+
 
 
         for (char c : message.toCharArray()) {
@@ -230,11 +249,12 @@ public final class Training extends JavaPlugin implements Listener {
         }
 
 
-        if (p.hasPermission("nightgamer.admin")) {
-            e.setMessage(Component.text(
-                    "[Admin] ").color(NamedTextColor.DARK_RED)
-                    + message);
 
+
+
+
+        if (p.hasPermission("nightgamer.admin")) {
+            e.setMessage(NamedTextColor.DARK_RED + "[Admin] " + NamedTextColor.GOLD + message);
         }
 
     }
@@ -263,6 +283,8 @@ public final class Training extends JavaPlugin implements Listener {
             p.sendMessage(Component.text("Placeholder"));
         }
     }
+
+
 
 
 

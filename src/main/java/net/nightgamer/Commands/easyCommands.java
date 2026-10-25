@@ -47,6 +47,7 @@ public class easyCommands implements CommandExecutor  {
 
         if ((sender instanceof Player p)) {
             double doubleSpeed;
+            Component ServerTitle = Component.text("NightGamer");
 
             switch(command.getName().toLowerCase()) {
 
@@ -426,7 +427,8 @@ public class easyCommands implements CommandExecutor  {
                         if (args.length == 4) {
                             if (Bukkit.getPlayer(args[0]) != null) {
                                 Player target = Bukkit.getPlayer(args[0]);
-                                Component source = Component.text("NightGames").color(NamedTextColor.YELLOW);
+                                Component source = ServerTitle.color(NamedTextColor.YELLOW);
+                                Component targetname = Component.text(target.getName());
 
 
                                 switch (args[1]) {
@@ -442,6 +444,7 @@ public class easyCommands implements CommandExecutor  {
                                                     (Date) null,
                                                     String.valueOf(source),
                                                     true);
+                                            p.sendMessage(targetname + " " + Component.text("has been banned"));
 
                                         } catch (NullPointerException e){
                                             e.fillInStackTrace();
@@ -531,9 +534,10 @@ public class easyCommands implements CommandExecutor  {
                     }
                 }
             break;
+
             //endregion
 
-            //region blanko
+                //region blanko
 
             //endregion
 
