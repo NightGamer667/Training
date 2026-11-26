@@ -14,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import net.nightgamer.enums.gm;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -165,6 +166,7 @@ public class easyCommands implements CommandExecutor  {
                     if(p.hasPermission("nightgamer.night")) {
                         p.sendMessage(Component.text("it is Night now"));
                         p.getWorld().setTime(18000);
+
                     }
                 break;
 
@@ -381,9 +383,22 @@ public class easyCommands implements CommandExecutor  {
                 break;
                 //endregion
 
+
+
                 //region players
                 case "players":
                     if(p.hasPermission("nightgamer.players")) {
+                        int i = 1;
+                        double d = 12;
+                        float f = (float) 1.1;
+
+
+                        String a = "bhiff";
+                        boolean b = true;
+
+
+                        p.sendMessage(Component.text(a));
+
                         p.sendMessage(Component.text(Bukkit.getOnlinePlayers().size() + " players online"));
                     }
 
@@ -536,6 +551,17 @@ public class easyCommands implements CommandExecutor  {
             break;
 
             //endregion
+
+                //region blanko
+
+
+
+
+                //endregion
+
+                //region blanko
+
+                //endregion
 
                 //region blanko
 

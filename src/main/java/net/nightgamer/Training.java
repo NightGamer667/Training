@@ -6,10 +6,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
-import net.nightgamer.Commands.easyCommands;
-import net.nightgamer.Commands.invCommand;
-import net.nightgamer.Commands.message;
-import net.nightgamer.Commands.replymessage;
+import net.nightgamer.Commands.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,6 +56,8 @@ public final class Training extends JavaPlugin implements Listener {
     public void onEnable() {
         spawn = new File(getDataFolder(), "spawn.yml");
         startItem = new File(getDataFolder(), "startItem.yml");
+        testFile = new File(getDataFolder(), "testFile.yml");
+
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
@@ -92,6 +91,8 @@ public final class Training extends JavaPlugin implements Listener {
 
         spawnConfig = YamlConfiguration.loadConfiguration(spawn);
         startItemConfig = YamlConfiguration.loadConfiguration(startItem);
+        testConfig = YamlConfiguration.loadConfiguration(testFile);
+
 
         getCommand("spawn").setExecutor(new easyCommands(this));
         getCommand("setspawn").setExecutor(new easyCommands(this));
@@ -118,6 +119,9 @@ public final class Training extends JavaPlugin implements Listener {
         getCommand("opspawn").setExecutor(new easyCommands(this));
 
 
+        getCommand("say").setExecutor(new serverCommands());
+
+
         getCommand("msg").setExecutor(new message(this));
 
 
@@ -137,6 +141,7 @@ public final class Training extends JavaPlugin implements Listener {
     public void onDisable() {
 
         System.out.println(
+
                 "[NightGamer Training]: Plugin has been disabled!\n" +
                 "Unload and Saved Commands/Config!");
 
